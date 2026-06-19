@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>6249a988-f636-4d85-98d0-3ade9392edc4</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.26" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Aether.Application\Aether.Application.csproj" />
+    <ProjectReference Include="..\Aether.Infrastructure\Aether.Infrastructure.csproj" />
+    <ProjectReference Include="..\Aether.Console\Aether.Console.csproj" />
+  </ItemGroup>
+
+</Project>

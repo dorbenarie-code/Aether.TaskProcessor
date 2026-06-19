@@ -1,0 +1,7 @@
+using Aether.Domain.Optimization;
+
+namespace Aether.Application.Scheduling.SubmissionForms;
+
+public sealed record MandatoryShiftAvailabilityPolicyResult(
+    IReadOnlyCollection<AvailabilityWindow> AvailabilityWindows,
+    IReadOnlyCollection<ResourcePreference> ResourcePreferences);

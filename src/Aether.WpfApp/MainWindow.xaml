@@ -1,0 +1,326 @@
+<Window x:Class="Aether.WpfApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="מחולל סידור עבודה"
+        Height="760"
+        Width="1000"
+        FlowDirection="RightToLeft"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI, Arial"
+        FontSize="14"
+        Background="#F3F4F6">
+    <Window.Resources>
+        <Style x:Key="BaseButtonStyle" TargetType="Button">
+            <Setter Property="MinHeight" Value="36" />
+            <Setter Property="Padding" Value="14,8" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="Root"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Root" Property="Opacity" Value="0.92" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Root" Property="Opacity" Value="0.82" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Root" Property="Background" Value="#E5E7EB" />
+                                <Setter TargetName="Root" Property="BorderBrush" Value="#D1D5DB" />
+                                <Setter Property="Foreground" Value="#9CA3AF" />
+                                <Setter Property="Cursor" Value="Arrow" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource BaseButtonStyle}">
+            <Setter Property="Background" Value="#1D4ED8" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="#1D4ED8" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style x:Key="SecondaryButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource BaseButtonStyle}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#1F2937" />
+            <Setter Property="BorderBrush" Value="#CBD5E1" />
+        </Style>
+
+        <Style x:Key="OutputActionButtonStyle"
+               TargetType="Button"
+               BasedOn="{StaticResource SecondaryButtonStyle}">
+            <Setter Property="MinHeight" Value="34" />
+            <Setter Property="Padding" Value="12,7" />
+        </Style>
+
+        <Style x:Key="SectionTitleTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Foreground" Value="#111827" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+        </Style>
+
+        <Style x:Key="MutedTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#6B7280" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="CardBorderStyle" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="BorderBrush" Value="#E5E7EB" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Padding" Value="18" />
+        </Style>
+
+        <Style x:Key="ManagerConstraintsDataGridStyle" TargetType="DataGrid">
+            <Setter Property="GridLinesVisibility" Value="Horizontal" />
+            <Setter Property="HorizontalGridLinesBrush" Value="#E5E7EB" />
+            <Setter Property="VerticalGridLinesBrush" Value="#F3F4F6" />
+            <Setter Property="AlternatingRowBackground" Value="#F9FAFB" />
+            <Setter Property="RowBackground" Value="White" />
+            <Setter Property="BorderBrush" Value="#E5E7EB" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="RowHeight" Value="36" />
+            <Setter Property="ColumnHeaderHeight" Value="38" />
+        </Style>
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Background" Value="#F3F4F6" />
+            <Setter Property="Foreground" Value="#374151" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="BorderBrush" Value="#D1D5DB" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Padding" Value="6,4" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="16" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="16" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="16" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="24" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <TextBlock Text="מחולל סידור עבודה"
+                           FontSize="26"
+                           FontWeight="Bold" />
+                <TextBlock Text="יצירת סידור עבודה מקובץ בקשות עובדים"
+                           FontSize="14"
+                           Margin="0,6,0,0"
+                           Foreground="Gray" />
+            </StackPanel>
+
+            <Border Grid.Row="2"
+                    Style="{StaticResource CardBorderStyle}">
+                <StackPanel>
+                    <Button x:Name="SelectInputWorkbookButton"
+                            Content="בחר קובץ בקשות עובדים"
+                            Width="220"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Click="SelectInputWorkbookButton_Click" />
+
+                    <TextBlock Text="נתיב קובץ:"
+                               Margin="0,12,0,4"
+                               Style="{StaticResource SectionTitleTextBlockStyle}" />
+
+                    <TextBlock x:Name="InputWorkbookPathTextBlock"
+                               Text="לא נבחר קובץ"
+                               TextWrapping="Wrap"
+                               Foreground="Gray" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="4"
+                    Style="{StaticResource CardBorderStyle}">
+                <StackPanel>
+                    <Button x:Name="SelectOutputDirectoryButton"
+                            Content="בחר תיקיית שמירה"
+                            Width="220"
+                            HorizontalAlignment="Right"
+                            Style="{StaticResource SecondaryButtonStyle}"
+                            Click="SelectOutputDirectoryButton_Click" />
+
+                    <TextBlock Text="תיקיית פלט:"
+                               Margin="0,12,0,4"
+                               Style="{StaticResource SectionTitleTextBlockStyle}" />
+
+                    <TextBlock x:Name="OutputDirectoryPathTextBlock"
+                               Text="לא נבחרה תיקייה"
+                               TextWrapping="Wrap"
+                               Foreground="Gray" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Row="6"
+                    Style="{StaticResource CardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Text="אילוצי מנהל לריצה הנוכחית"
+                               Style="{StaticResource SectionTitleTextBlockStyle}" />
+
+                    <TextBlock Text="השאר ריק אם אין אילוצים. שורה חלקית תיבדק בזמן יצירת הסידור."
+                               FontSize="12"
+                               Foreground="Gray"
+                               Margin="0,0,0,12" />
+
+                    <DataGrid x:Name="ManagerConstraintsGrid"
+                              ItemsSource="{Binding ManagerConstraintDraftRows}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="True"
+                              CanUserDeleteRows="True"
+                              MinHeight="170"
+                              MaxHeight="230"
+                              HeadersVisibility="Column"
+                              Style="{StaticResource ManagerConstraintsDataGridStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="סוג אילוץ"
+                                                    Width="160">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding DataContext.ManagerConstraintTypes, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                  SelectedItem="{Binding Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="עובד"
+                                                    Width="160">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding DataContext.WorkerNameOptions, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                  SelectedItem="{Binding WorkerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="תאריך"
+                                                    Width="140">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding DataContext.ScheduleDateOptions, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                  SelectedItem="{Binding Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding StringFormat={}{0:yyyy-MM-dd}}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="משמרת"
+                                                    Width="140">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding DataContext.ShiftKinds, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                  SelectedItem="{Binding ShiftKind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="מינימום"
+                                                Width="100"
+                                                Binding="{Binding MinResourceCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <DataGridTextColumn Header="מקסימום"
+                                                Width="100"
+                                                Binding="{Binding MaxResourceCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Border>
+
+            <StackPanel Grid.Row="8">
+                <CheckBox x:Name="ApplyPostRunLocalAddImprovementCheckBox"
+                          Content="הפעל שיפור אוטומטי לאחר החישוב"
+                          Margin="0,0,0,16" />
+
+                <Button x:Name="GenerateScheduleButton"
+                        Content="צור סידור עבודה"
+                        Height="48"
+                        IsEnabled="False"
+                        Style="{StaticResource PrimaryButtonStyle}"
+                        Click="GenerateScheduleButton_Click" />
+
+                <ProgressBar x:Name="GenerationProgressBar"
+                             Height="10"
+                             Margin="0,12,0,0"
+                             IsIndeterminate="True"
+                             Visibility="Collapsed"
+                             Foreground="#2563EB"
+                             Background="#E5E7EB"
+                             ToolTip="המערכת מחשבת את הסידור ברקע" />
+            </StackPanel>
+
+            <Border Grid.Row="10"
+                    Style="{StaticResource CardBorderStyle}">
+                <StackPanel>
+                    <TextBlock Text="סטטוס:"
+                               Style="{StaticResource SectionTitleTextBlockStyle}" />
+
+                    <TextBlock x:Name="StatusTextBlock"
+                               Text="מוכן"
+                               FontSize="14"
+                               TextWrapping="Wrap" />
+
+                    <StackPanel Orientation="Horizontal"
+                                Margin="0,16,0,0"
+                                HorizontalAlignment="Right">
+                        <Button x:Name="OpenScheduleTableXlsxButton"
+                                Content="פתח קובץ XLSX"
+                                Width="140"
+                                IsEnabled="False"
+                                Margin="0,0,0,0"
+                                Style="{StaticResource OutputActionButtonStyle}"
+                                Click="OpenScheduleTableXlsxButton_Click" />
+
+                        <Button x:Name="OpenOutputDirectoryButton"
+                                Content="פתח תיקיית פלט"
+                                Width="140"
+                                IsEnabled="False"
+                                Margin="12,0,0,0"
+                                Style="{StaticResource OutputActionButtonStyle}"
+                                Click="OpenOutputDirectoryButton_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Window>

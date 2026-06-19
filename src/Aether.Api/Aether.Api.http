@@ -1,0 +1,6 @@
+@Aether.Api_HostAddress = http://localhost:5008
+
+GET {{Aether.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
